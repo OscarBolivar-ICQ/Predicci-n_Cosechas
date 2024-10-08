@@ -5,14 +5,6 @@ import joblib
 # Cargar el modelo
 modelo = joblib.load("Modelo_Prediccion_Cosechas.pkl")
 
-# Definir la lista de salidas (variables objetivo)
-salidas = ['Suma de TiempoOperacion', 'Cosecha_ton', 'SUM_Sal_Traspaso', 
-           'Promedio_Sal_Ponderado_K', 'Promedio_Sal_Ponderado_Na', 
-           'Promedio_Sal_Ponderado_Mg', 'Promedio_Sal_Ponderado_Ca', 
-           'Promedio_Sal_Ponderado_SO4', 'Promedio_Sal_Ponderado_Li', 
-           'Promedio_Sal_Ponderado_Cl', 'K_pct', 'Na_pct', 'Mg_pct', 
-           'Ca_pct', 'SO4_pct', 'Li_pct', 'Cl_pct', 'H3BO3_pct']
-
 # Definir el orden de las columnas (características) esperado por el modelo
 orden_columnas = ['Último_Valor_K', 'Último_Valor_Na', 'Último_Valor_Mg', 
                   'Último_Valor_Ca', 'Último_Valor_SO4', 'Último_Valor_Li', 
@@ -24,6 +16,14 @@ orden_columnas = ['Último_Valor_K', 'Último_Valor_Na', 'Último_Valor_Mg',
                   'Promedio_Ent_Ponderado_Ca', 'Promedio_Ent_Ponderado_SO4', 
                   'Promedio_Ent_Ponderado_Li', 'Promedio_Ent_Ponderado_Cl', 
                   'Promedio_Ent_Ponderado_H3BO3', 'Medida_Area_Infraestructura']
+
+# Definir la lista de salidas (variables objetivo)
+salidas = ['Suma de TiempoOperacion', 'Cosecha_ton', 'SUM_Sal_Traspaso', 
+           'Promedio_Sal_Ponderado_K', 'Promedio_Sal_Ponderado_Na', 
+           'Promedio_Sal_Ponderado_Mg', 'Promedio_Sal_Ponderado_Ca', 
+           'Promedio_Sal_Ponderado_SO4', 'Promedio_Sal_Ponderado_Li', 
+           'Promedio_Sal_Ponderado_Cl', 'K_pct', 'Na_pct', 'Mg_pct', 
+           'Ca_pct', 'SO4_pct', 'Li_pct', 'Cl_pct', 'H3BO3_pct']
 
 # Función para procesar las entradas del usuario
 def procesar_datos_entrada(input_usuario):
@@ -119,12 +119,18 @@ input_df = procesar_datos_entrada(input_usuario)
 # Realizar la predicción
 if st.button("Predecir"):
     try:
-        # Predecir para todas las salidas
-        predicciones = modelo.predict(input_df)
+        # Crear un diccionario para almacenar las predicciones de cada salida
+        predicciones = {}
 
-        # Mostrar las predicciones para todas las columnas
-        st.write("Predicciones para todas las salidas:")
-        for i, columna in enumerate(salidas):
-            st.write(f"{columna}: {predicciones[i]}")
+        # Realizar la predicción para cada columna de salida
+        for salida in salidas:
+            y_pred = modelo.predict(input_df)
+            predicciones[salida] = y_pred[0]  # Almacenar el primer valor predicho
+
+        # Mostrar las predicciones para cada salida
+        st.write("Predicciones:")
+        for salida, prediccion in predicciones.items():
+            st.write(f"{salida}: {prediccion}")
+
     except Exception as e:
         st.error(f"Error en la predicción: {str(e)}")
