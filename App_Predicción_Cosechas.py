@@ -5,26 +5,6 @@ import joblib
 # Cargar el modelo
 modelo = joblib.load("Modelo_Prediccion_Cosechas.pkl")
 
-# Definir el orden de las columnas (características) esperado por el modelo
-orden_columnas = ['Último_Valor_K', 'Último_Valor_Na', 'Último_Valor_Mg', 
-                  'Último_Valor_Ca', 'Último_Valor_SO4', 'Último_Valor_Li', 
-                  'Último_Valor_Cl', 'Último_Valor_H3BO3', 'Promedio_K_Periodo', 
-                  'Promedio_Na_Periodo', 'Promedio_Mg_Periodo', 'Promedio_Ca_Periodo', 
-                  'Promedio_SO4_Periodo', 'Promedio_Li_Periodo', 'Promedio_Cl_Periodo', 
-                  'Promedio_H3BO3_Periodo', 'SUM_Ent_Traspaso', 'Promedio_Ent_Ponderado_K', 
-                  'Promedio_Ent_Ponderado_Na', 'Promedio_Ent_Ponderado_Mg', 
-                  'Promedio_Ent_Ponderado_Ca', 'Promedio_Ent_Ponderado_SO4', 
-                  'Promedio_Ent_Ponderado_Li', 'Promedio_Ent_Ponderado_Cl', 
-                  'Promedio_Ent_Ponderado_H3BO3', 'Medida_Area_Infraestructura']
-
-# Definir la lista de salidas (variables objetivo)
-salidas = ['Suma de TiempoOperacion', 'Cosecha_ton', 'SUM_Sal_Traspaso', 
-           'Promedio_Sal_Ponderado_K', 'Promedio_Sal_Ponderado_Na', 
-           'Promedio_Sal_Ponderado_Mg', 'Promedio_Sal_Ponderado_Ca', 
-           'Promedio_Sal_Ponderado_SO4', 'Promedio_Sal_Ponderado_Li', 
-           'Promedio_Sal_Ponderado_Cl', 'K_pct', 'Na_pct', 'Mg_pct', 
-           'Ca_pct', 'SO4_pct', 'Li_pct', 'Cl_pct', 'H3BO3_pct']
-
 # Función para procesar las entradas del usuario
 def procesar_datos_entrada(input_usuario):
     # Convertir a DataFrame
@@ -35,9 +15,6 @@ def procesar_datos_entrada(input_usuario):
 
     # Reemplazar valores NaN o None con ceros
     input_df = input_df.fillna(0)
-
-    # Reordenar las columnas en el orden esperado por el modelo
-    input_df = input_df[orden_columnas]
 
     return input_df
 
@@ -85,7 +62,7 @@ valor_h3bo3_traspaso_entrada = st.number_input("Valor H3BO3 Traspaso Entrada", v
 
 # Diccionario con los valores introducidos
 input_usuario = {
-    "Medida_Area_Infraestructura": area_poza,
+    "Área de Poza": area_poza,
     "Promedio_K_Periodo": promedio_k_periodo,
     "Promedio_Na_Periodo": promedio_na_periodo,
     "Promedio_Mg_Periodo": promedio_mg_periodo,
@@ -116,21 +93,31 @@ input_usuario = {
 # Procesar los datos de entrada
 input_df = procesar_datos_entrada(input_usuario)
 
+# Predicciones por cada salida
+salidas = ['Suma de TiempoOperacion', 'Cosecha_ton', 'SUM_Sal_Traspaso', 
+           'Promedio_Sal_Ponderado_K', 'Promedio_Sal_Ponderado_Na', 
+           'Promedio_Sal_Ponderado_Mg', 'Promedio_Sal_Ponderado_Ca', 
+           'Promedio_Sal_Ponderado_SO4', 'Promedio_Sal_Ponderado_Li', 
+           'Promedio_Sal_Ponderado_Cl', 'K_pct', 'Na_pct', 'Mg_pct', 
+           'Ca_pct', 'SO4_pct', 'Li_pct', 'Cl_pct', 'H3BO3_pct']
+
 # Realizar la predicción
 if st.button("Predecir"):
     try:
-        # Crear un diccionario para almacenar las predicciones de cada salida
+        # Crear un diccionario para almacenar las predicciones
         predicciones = {}
 
-        # Realizar la predicción para cada columna de salida
-        for idx, salida in enumerate(salidas):
-            y_pred = modelo.predict(input_df)[idx]  # Obtener la predicción correspondiente para cada salida
-            predicciones[salida] = y_pred  # Almacenar la predicción
-
-        # Mostrar las predicciones para cada salida
-        st.write("Predicciones:")
-        for salida, prediccion in predicciones.items():
-            st.write(f"{salida}: {prediccion}")
+        # Iterar sobre las salidas y realizar una predicción para cada columna
+        for columna in salidas:
+            # Realizar la predicción para cada columna de salida
+            prediccion = modelo.predict(input_df)
+            # Guardar la predicción en el diccionario
+            predicciones[columna] = prediccion[0]  # Acceder al primer elemento de la predicción
+        
+        # Mostrar los resultados de las predicciones
+        st.subheader("Predicciones:")
+        for columna, prediccion in predicciones.items():
+            st.write(f"{columna}: {prediccion}")
 
     except Exception as e:
         st.error(f"Error en la predicción: {str(e)}")
