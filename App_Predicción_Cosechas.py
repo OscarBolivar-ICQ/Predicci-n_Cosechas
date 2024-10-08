@@ -2,9 +2,6 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Cargar el modelo
-modelo = joblib.load("Modelo_Prediccion_Cosechas.pkl")
-
 # Función para procesar las entradas del usuario
 def procesar_datos_entrada(input_usuario):
     # Convertir a DataFrame
@@ -20,6 +17,20 @@ def procesar_datos_entrada(input_usuario):
 
 # Título de la app
 st.title("Predicción de Cosechas en Poza")
+
+# Sección para seleccionar el modelo a usar
+st.header("Seleccionar el modelo para la predicción")
+modelos_disponibles = {
+    "Modelo General de Predicción": "Modelo_Prediccion_Cosechas.pkl",
+    "Modelo Específico 1": "Modelo_Prediccion_Cosechas_1.pkl",
+    "Modelo Específico 2": "Modelo_Prediccion_Cosechas_2.pkl"
+}
+
+# Crear un menú desplegable para seleccionar el modelo
+modelo_seleccionado = st.selectbox("Selecciona un modelo", list(modelos_disponibles.keys()))
+
+# Cargar el modelo seleccionado
+modelo = joblib.load(modelos_disponibles[modelo_seleccionado])
 
 # Sección 1: Datos Particulares de Poza
 st.header("Datos Particulares de Poza")
