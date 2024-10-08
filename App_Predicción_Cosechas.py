@@ -24,7 +24,7 @@ st.title("Predicción de Cosechas en Poza")
 # Sección 1: Datos Particulares de Poza
 st.header("Datos Particulares de Poza")
 infraestructura = st.text_input("Infraestructura")
-Medida_Area_Infraestructura = st.number_input("Área de Poza", min_value=0.0)
+area_poza = st.number_input("Área de Poza", min_value=0.0)
 
 # Sección 2: Valores Medidos en Poza Durante Período entre Cosechas
 st.header("Valores Medidos en Poza Durante Período entre Cosechas")
@@ -62,9 +62,9 @@ valor_h3bo3_traspaso_entrada = st.number_input("Valor H3BO3 Traspaso Entrada", v
 
 # Diccionario con los valores introducidos
 input_usuario = {
-    "Área de Poza": Medida_Area_Infraestructura,
+    "Medida_Area_Infraestructura": area_poza,  # Update name
     "Promedio_K_Periodo": promedio_k_periodo,
-    "Promedio_Na_Periodo": promedio_na_periodo,
+    "Promedio_Na_Periodo": promedio_na_periodo,  # Ensure correct spelling
     "Promedio_Mg_Periodo": promedio_mg_periodo,
     "Promedio_Ca_Periodo": promedio_ca_periodo,
     "Promedio_SO4_Periodo": promedio_so4_periodo,
@@ -79,8 +79,8 @@ input_usuario = {
     "Último_Valor_Li": ultimo_valor_li,
     "Último_Valor_Cl": ultimo_valor_cl,
     "Último_Valor_H3BO3": ultimo_valor_h3bo3,
-    "SUM_Ent_Traspaso": volumen_traspaso_total,
-    "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,
+    "SUM_Ent_Traspaso": volumen_traspaso_total,  # Correct name
+    "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,  # Correct name
     "Promedio_Ent_Ponderado_Na": valor_na_traspaso_entrada,
     "Promedio_Ent_Ponderado_Mg": valor_mg_traspaso_entrada,
     "Promedio_Ent_Ponderado_Ca": valor_ca_traspaso_entrada,
