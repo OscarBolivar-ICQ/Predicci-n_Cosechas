@@ -5,22 +5,18 @@ import joblib
 # Cargar el modelo
 modelo = joblib.load("Modelo_Prediccion_Cosechas.pkl")
 
+# Definir la lista de salidas (variables objetivo)
+salidas = ['Suma de TiempoOperacion', 'Cosecha_ton', 'SUM_Sal_Traspaso', 
+           'Promedio_Sal_Ponderado_K', 'Promedio_Sal_Ponderado_Na', 
+           'Promedio_Sal_Ponderado_Mg', 'Promedio_Sal_Ponderado_Ca', 
+           'Promedio_Sal_Ponderado_SO4', 'Promedio_Sal_Ponderado_Li', 
+           'Promedio_Sal_Ponderado_Cl', 'K_pct', 'Na_pct', 'Mg_pct', 
+           'Ca_pct', 'SO4_pct', 'Li_pct', 'Cl_pct', 'H3BO3_pct']
+
 # Función para procesar las entradas del usuario
 def procesar_datos_entrada(input_usuario):
     # Convertir a DataFrame
     input_df = pd.DataFrame([input_usuario])
-
-    # Asegurar que las columnas estén en el mismo orden que durante el entrenamiento del modelo
-    columnas_modelo = ['Último_Valor_K', 'Último_Valor_Na', 'Último_Valor_Mg', 'Último_Valor_Ca', 'Último_Valor_SO4', 
-                       'Último_Valor_Li', 'Último_Valor_Cl', 'Último_Valor_H3BO3', 'Promedio_K_Periodo', 
-                       'Promedio_Na_Periodo', 'Promedio_Mg_Periodo', 'Promedio_Ca_Periodo', 'Promedio_SO4_Periodo', 
-                       'Promedio_Li_Periodo', 'Promedio_Cl_Periodo', 'Promedio_H3BO3_Periodo', 'SUM_Ent_Traspaso', 
-                       'Promedio_Ent_Ponderado_K', 'Promedio_Ent_Ponderado_Na', 'Promedio_Ent_Ponderado_Mg', 
-                       'Promedio_Ent_Ponderado_Ca', 'Promedio_Ent_Ponderado_SO4', 'Promedio_Ent_Ponderado_Li', 
-                       'Promedio_Ent_Ponderado_Cl', 'Promedio_Ent_Ponderado_H3BO3', 'Medida_Area_Infraestructura']
-    
-    # Asegurarse de que las columnas están en el orden correcto
-    input_df = input_df[columnas_modelo]
 
     # Asegurar que todas las columnas sean de tipo float
     input_df = input_df.astype(float)
@@ -108,14 +104,12 @@ input_df = procesar_datos_entrada(input_usuario)
 # Realizar la predicción
 if st.button("Predecir"):
     try:
-        # Realizar predicciones para todas las columnas de salida
-        predicciones = {}
-        for columna in salidas:
-            predicciones[columna] = modelo.predict(input_df)  # Esto debe estar ajustado para cada columna
+        # Predecir para todas las salidas
+        predicciones = modelo.predict(input_df)
 
-        # Mostrar las predicciones
+        # Mostrar las predicciones para todas las columnas
         st.write("Predicciones para todas las salidas:")
-        for columna, prediccion in predicciones.items():
-            st.write(f"{columna}: {prediccion}")
+        for i, columna in enumerate(salidas):
+            st.write(f"{columna}: {predicciones[i]}")
     except Exception as e:
         st.error(f"Error en la predicción: {str(e)}")
