@@ -2,6 +2,18 @@ import streamlit as st
 import pandas as pd
 import joblib
 
+# Definir columnas de entrada (features)
+entradas = ['Último_Valor_K', 'Último_Valor_Na', 'Último_Valor_Mg', 
+            'Último_Valor_Ca', 'Último_Valor_SO4', 'Último_Valor_Li', 'Último_Valor_Cl', 
+            'Último_Valor_H3BO3', 'Promedio_K_Periodo', 'Promedio_Na_Periodo', 
+            'Promedio_Mg_Periodo', 'Promedio_Ca_Periodo', 'Promedio_SO4_Periodo', 
+            'Promedio_Li_Periodo', 'Promedio_Cl_Periodo', 'Promedio_H3BO3_Periodo', 
+            'SUM_Ent_Traspaso', 'Promedio_Ent_Ponderado_K', 'Promedio_Ent_Ponderado_Na', 
+            'Promedio_Ent_Ponderado_Mg', 'Promedio_Ent_Ponderado_Ca', 
+            'Promedio_Ent_Ponderado_SO4', 'Promedio_Ent_Ponderado_Li', 
+            'Promedio_Ent_Ponderado_Cl', 'Promedio_Ent_Ponderado_H3BO3', 
+            'Medida_Area_Infraestructura']
+
 # Función para cargar todos los modelos
 def cargar_modelos():
     modelos = {}
@@ -24,6 +36,8 @@ modelos = cargar_modelos()
 def procesar_datos_entrada(input_usuario):
     # Convertir a DataFrame
     input_df = pd.DataFrame([input_usuario])
+    # Reordenar las columnas según 'entradas'
+    input_df = input_df[entradas]
     # Asegurar que todas las columnas sean de tipo float
     input_df = input_df.astype(float)
     # Reemplazar valores NaN o None con ceros
@@ -74,15 +88,6 @@ valor_h3bo3_traspaso_entrada = st.number_input("Valor H3BO3 Traspaso Entrada", v
 
 # Diccionario con los valores introducidos
 input_usuario = {
-    "Medida_Area_Infraestructura": medida_area_infraestructura,  
-    "Promedio_K_Periodo": promedio_k_periodo,
-    "Promedio_Na_Periodo": promedio_na_periodo,
-    "Promedio_Mg_Periodo": promedio_mg_periodo,
-    "Promedio_Ca_Periodo": promedio_ca_periodo,
-    "Promedio_SO4_Periodo": promedio_so4_periodo,
-    "Promedio_Li_Periodo": promedio_li_periodo,
-    "Promedio_Cl_Periodo": promedio_cl_periodo,
-    "Promedio_H3BO3_Periodo": promedio_h3bo3_periodo,
     "Último_Valor_K": ultimo_valor_k,
     "Último_Valor_Na": ultimo_valor_na,
     "Último_Valor_Mg": ultimo_valor_mg,
@@ -91,15 +96,24 @@ input_usuario = {
     "Último_Valor_Li": ultimo_valor_li,
     "Último_Valor_Cl": ultimo_valor_cl,
     "Último_Valor_H3BO3": ultimo_valor_h3bo3,
-    "SUM_Ent_Traspaso": volumen_traspaso_total,  
-    "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,  
-    "Promedio_Ent_Ponderado_Na": valor_na_traspaso_entrada,  
-    "Promedio_Ent_Ponderado_Mg": valor_mg_traspaso_entrada,  
-    "Promedio_Ent_Ponderado_Ca": valor_ca_traspaso_entrada,  
-    "Promedio_Ent_Ponderado_SO4": valor_so4_traspaso_entrada,  
-    "Promedio_Ent_Ponderado_Li": valor_li_traspaso_entrada,  
-    "Promedio_Ent_Ponderado_Cl": valor_cl_traspaso_entrada,  
-    "Promedio_Ent_Ponderado_H3BO3": valor_h3bo3_traspaso_entrada  
+    "Promedio_K_Periodo": promedio_k_periodo,
+    "Promedio_Na_Periodo": promedio_na_periodo,
+    "Promedio_Mg_Periodo": promedio_mg_periodo,
+    "Promedio_Ca_Periodo": promedio_ca_periodo,
+    "Promedio_SO4_Periodo": promedio_so4_periodo,
+    "Promedio_Li_Periodo": promedio_li_periodo,
+    "Promedio_Cl_Periodo": promedio_cl_periodo,
+    "Promedio_H3BO3_Periodo": promedio_h3bo3_periodo,
+    "SUM_Ent_Traspaso": volumen_traspaso_total,
+    "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,
+    "Promedio_Ent_Ponderado_Na": valor_na_traspaso_entrada,
+    "Promedio_Ent_Ponderado_Mg": valor_mg_traspaso_entrada,
+    "Promedio_Ent_Ponderado_Ca": valor_ca_traspaso_entrada,
+    "Promedio_Ent_Ponderado_SO4": valor_so4_traspaso_entrada,
+    "Promedio_Ent_Ponderado_Li": valor_li_traspaso_entrada,
+    "Promedio_Ent_Ponderado_Cl": valor_cl_traspaso_entrada,
+    "Promedio_Ent_Ponderado_H3BO3": valor_h3bo3_traspaso_entrada,
+    "Medida_Area_Infraestructura": medida_area_infraestructura
 }
 
 # Procesar los datos de entrada
