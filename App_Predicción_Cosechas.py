@@ -123,9 +123,9 @@ if st.button("Predecir"):
         predicciones = {}
 
         # Realizar la predicción para cada columna de salida
-        for salida in salidas:
-            y_pred = modelo.predict(input_df)
-            predicciones[salida] = y_pred[0]  # Almacenar el primer valor predicho
+        for idx, salida in enumerate(salidas):
+            y_pred = modelo.predict(input_df)[idx]  # Obtener la predicción correspondiente para cada salida
+            predicciones[salida] = y_pred  # Almacenar la predicción
 
         # Mostrar las predicciones para cada salida
         st.write("Predicciones:")
