@@ -108,7 +108,14 @@ input_df = procesar_datos_entrada(input_usuario)
 # Realizar la predicción
 if st.button("Predecir"):
     try:
-        predicciones = modelo.predict(input_df)
-        st.write(f"Predicciones: {predicciones}")
+        # Realizar predicciones para todas las columnas de salida
+        predicciones = {}
+        for columna in salidas:
+            predicciones[columna] = modelo.predict(input_df)  # Esto debe estar ajustado para cada columna
+
+        # Mostrar las predicciones
+        st.write("Predicciones para todas las salidas:")
+        for columna, prediccion in predicciones.items():
+            st.write(f"{columna}: {prediccion}")
     except Exception as e:
         st.error(f"Error en la predicción: {str(e)}")
