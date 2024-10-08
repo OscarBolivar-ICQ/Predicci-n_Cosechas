@@ -36,7 +36,7 @@ st.title("Predicción de Cosechas en Poza")
 # Sección 1: Datos Particulares de Poza
 st.header("Datos Particulares de Poza")
 infraestructura = st.text_input("Infraestructura")
-area_poza = st.number_input("Área de Poza", min_value=0.0)
+medida_area_infraestructura = st.number_input("Área de Poza", min_value=0.0)
 
 # Sección 2: Valores Medidos en Poza Durante Período entre Cosechas
 st.header("Valores Medidos en Poza Durante Período entre Cosechas")
@@ -74,7 +74,7 @@ valor_h3bo3_traspaso_entrada = st.number_input("Valor H3BO3 Traspaso Entrada", v
 
 # Diccionario con los valores introducidos
 input_usuario = {
-    "Medida_Area_Infraestructura": area_poza,  # Cambio a nombre original del modelo
+    "Medida_Area_Infraestructura": medida_area_infraestructura,  # Cambio a nombre original del modelo
     "Promedio_K_Periodo": promedio_k_periodo,
     "Promedio_Na_Periodo": promedio_na_periodo,
     "Promedio_Mg_Periodo": promedio_mg_periodo,
