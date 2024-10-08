@@ -2,72 +2,101 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Cargar el modelo entrenado
-modelo = joblib.load('Modelo_Prediccion_Cosechas.pkl')
+# Cargar el modelo
+modelo = joblib.load("Modelo_Predicción_Cosechas.pkl")
 
-# Función para predicción usando el modelo cargado
-def predecir_cosechas(input_data):
-    input_df = pd.DataFrame([input_data])  # Convertir entrada a dataframe
-    predicciones = modelo.predict(input_df)
-    return predicciones
+# Función para procesar las entradas del usuario
+def procesar_datos_entrada(input_usuario):
+    # Convertir a DataFrame
+    input_df = pd.DataFrame([input_usuario])
 
-# Título de la aplicación
+    # Asegurar que todas las columnas sean de tipo float
+    input_df = input_df.astype(float)
+
+    # Reemplazar valores NaN o None con ceros
+    input_df = input_df.fillna(0)
+
+    return input_df
+
+# Título de la app
 st.title("Predicción de Cosechas en Poza")
-
-# Crear un diccionario para los inputs
-input_usuario = {}
 
 # Sección 1: Datos Particulares de Poza
 st.header("Datos Particulares de Poza")
-
-# Infraestructura (solo informativa, no usada para predicción)
 infraestructura = st.text_input("Infraestructura")
-input_usuario['Infraestructura'] = infraestructura  # Guardar, aunque no se usará en el modelo
-
-# Área de Poza (Medida_Area_Infraestructura)
-medida_area = st.number_input("Área de Poza", min_value=0.0)
-input_usuario['Medida_Area_Infraestructura'] = medida_area
+area_poza = st.number_input("Área de Poza", min_value=0.0)
 
 # Sección 2: Valores Medidos en Poza Durante Período entre Cosechas
 st.header("Valores Medidos en Poza Durante Período entre Cosechas")
-
-input_usuario['Promedio_K_Periodo'] = st.number_input("Promedio de K en Período")
-input_usuario['Promedio_Na_Periodo'] = st.number_input("Promedio de Na en Período")
-input_usuario['Promedio_Mg_Periodo'] = st.number_input("Promedio de Mg en Período")
-input_usuario['Promedio_Ca_Periodo'] = st.number_input("Promedio de Ca en Período")
-input_usuario['Promedio_SO4_Periodo'] = st.number_input("Promedio de SO4 en Período")
-input_usuario['Promedio_Li_Periodo'] = st.number_input("Promedio de Li en Período")
-input_usuario['Promedio_Cl_Periodo'] = st.number_input("Promedio de Cl en Período")
-input_usuario['Promedio_H3BO3_Periodo'] = st.number_input("Promedio de H3BO3 en Período")
+promedio_k_periodo = st.number_input("Promedio de K en Período", value=0.0)
+promedio_na_periodo = st.number_input("Promedio de Na en Período", value=0.0)
+promedio_mg_periodo = st.number_input("Promedio de Mg en Período", value=0.0)
+promedio_ca_periodo = st.number_input("Promedio de Ca en Período", value=0.0)
+promedio_so4_periodo = st.number_input("Promedio de SO4 en Período", value=0.0)
+promedio_li_periodo = st.number_input("Promedio de Li en Período", value=0.0)
+promedio_cl_periodo = st.number_input("Promedio de Cl en Período", value=0.0)
+promedio_h3bo3_periodo = st.number_input("Promedio de H3BO3 en Período", value=0.0)
 
 # Sección 3: Últimos Valores Medidos en Poza Previos a Cosecha
 st.header("Últimos Valores Medidos en Poza Previos a Cosecha")
-
-input_usuario['Último_Valor_K'] = st.number_input("Último Valor de K")
-input_usuario['Último_Valor_Na'] = st.number_input("Último Valor de Na")
-input_usuario['Último_Valor_Mg'] = st.number_input("Último Valor de Mg")
-input_usuario['Último_Valor_Ca'] = st.number_input("Último Valor de Ca")
-input_usuario['Último_Valor_SO4'] = st.number_input("Último Valor de SO4")
-input_usuario['Último_Valor_Li'] = st.number_input("Último Valor de Li")
-input_usuario['Último_Valor_Cl'] = st.number_input("Último Valor de Cl")
-input_usuario['Último_Valor_H3BO3'] = st.number_input("Último Valor de H3BO3")
+ultimo_valor_k = st.number_input("Último Valor de K", value=0.0)
+ultimo_valor_na = st.number_input("Último Valor de Na", value=0.0)
+ultimo_valor_mg = st.number_input("Último Valor de Mg", value=0.0)
+ultimo_valor_ca = st.number_input("Último Valor de Ca", value=0.0)
+ultimo_valor_so4 = st.number_input("Último Valor de SO4", value=0.0)
+ultimo_valor_li = st.number_input("Último Valor de Li", value=0.0)
+ultimo_valor_cl = st.number_input("Último Valor de Cl", value=0.0)
+ultimo_valor_h3bo3 = st.number_input("Último Valor de H3BO3", value=0.0)
 
 # Sección 4: Valores de Traspasos de Entrada a Poza Durante Período entre Cosechas
 st.header("Valores de Traspasos de Entrada a Poza Durante Período entre Cosechas")
+volumen_traspaso_total = st.number_input("Volumen de Traspaso Total", value=0.0)
+valor_k_traspaso_entrada = st.number_input("Valor K Traspaso Entrada", value=0.0)
+valor_na_traspaso_entrada = st.number_input("Valor Na Traspaso Entrada", value=0.0)
+valor_mg_traspaso_entrada = st.number_input("Valor Mg Traspaso Entrada", value=0.0)
+valor_ca_traspaso_entrada = st.number_input("Valor Ca Traspaso Entrada", value=0.0)
+valor_so4_traspaso_entrada = st.number_input("Valor SO4 Traspaso Entrada", value=0.0)
+valor_li_traspaso_entrada = st.number_input("Valor Li Traspaso Entrada", value=0.0)
+valor_cl_traspaso_entrada = st.number_input("Valor Cl Traspaso Entrada", value=0.0)
+valor_h3bo3_traspaso_entrada = st.number_input("Valor H3BO3 Traspaso Entrada", value=0.0)
 
-input_usuario['SUM_Ent_Traspaso'] = st.number_input("Volumen de Traspaso Total")
-input_usuario['Promedio_Ent_Ponderado_K'] = st.number_input("Valor K Traspaso Entrada")
-input_usuario['Promedio_Ent_Ponderado_Na'] = st.number_input("Valor Na Traspaso Entrada")
-input_usuario['Promedio_Ent_Ponderado_Mg'] = st.number_input("Valor Mg Traspaso Entrada")
-input_usuario['Promedio_Ent_Ponderado_Ca'] = st.number_input("Valor Ca Traspaso Entrada")
-input_usuario['Promedio_Ent_Ponderado_SO4'] = st.number_input("Valor SO4 Traspaso Entrada")
-input_usuario['Promedio_Ent_Ponderado_Li'] = st.number_input("Valor Li Traspaso Entrada")
-input_usuario['Promedio_Ent_Ponderado_Cl'] = st.number_input("Valor Cl Traspaso Entrada")
-input_usuario['Promedio_Ent_Ponderado_H3BO3'] = st.number_input("Valor H3BO3 Traspaso Entrada")
+# Diccionario con los valores introducidos
+input_usuario = {
+    "Área de Poza": area_poza,
+    "Promedio_K_Periodo": promedio_k_periodo,
+    "Promedio_Na_Período": promedio_na_periodo,
+    "Promedio_Mg_Periodo": promedio_mg_periodo,
+    "Promedio_Ca_Periodo": promedio_ca_periodo,
+    "Promedio_SO4_Periodo": promedio_so4_periodo,
+    "Promedio_Li_Periodo": promedio_li_periodo,
+    "Promedio_Cl_Periodo": promedio_cl_periodo,
+    "Promedio_H3BO3_Periodo": promedio_h3bo3_periodo,
+    "Último_Valor_K": ultimo_valor_k,
+    "Último_Valor_Na": ultimo_valor_na,
+    "Último_Valor_Mg": ultimo_valor_mg,
+    "Último_Valor_Ca": ultimo_valor_ca,
+    "Último_Valor_SO4": ultimo_valor_so4,
+    "Último_Valor_Li": ultimo_valor_li,
+    "Último_Valor_Cl": ultimo_valor_cl,
+    "Último_Valor_H3BO3": ultimo_valor_h3bo3,
+    "Volumen de Traspaso Total": volumen_traspaso_total,
+    "Valor K Traspaso Entrada": valor_k_traspaso_entrada,
+    "Valor Na Traspaso Entrada": valor_na_traspaso_entrada,
+    "Valor Mg Traspaso Entrada": valor_mg_traspaso_entrada,
+    "Valor Ca Traspaso Entrada": valor_ca_traspaso_entrada,
+    "Valor SO4 Traspaso Entrada": valor_so4_traspaso_entrada,
+    "Valor Li Traspaso Entrada": valor_li_traspaso_entrada,
+    "Valor Cl Traspaso Entrada": valor_cl_traspaso_entrada,
+    "Valor H3BO3 Traspaso Entrada": valor_h3bo3_traspaso_entrada,
+}
 
-# Botón para hacer la predicción
-if st.button("Predecir Cosechas y Sálidas"):
-    predicciones = predecir_cosechas(input_usuario)
-    st.subheader("Resultados de la Predicción:")
-    st.write(f"Predicción: {predicciones}")
+# Procesar los datos de entrada
+input_df = procesar_datos_entrada(input_usuario)
 
+# Realizar la predicción
+if st.button("Predecir"):
+    try:
+        predicciones = modelo.predict(input_df)
+        st.write(f"Predicciones: {predicciones}")
+    except Exception as e:
+        st.error(f"Error en la predicción: {str(e)}")
