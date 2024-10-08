@@ -60,11 +60,11 @@ valor_li_traspaso_entrada = st.number_input("Valor Li Traspaso Entrada", value=0
 valor_cl_traspaso_entrada = st.number_input("Valor Cl Traspaso Entrada", value=0.0)
 valor_h3bo3_traspaso_entrada = st.number_input("Valor H3BO3 Traspaso Entrada", value=0.0)
 
-# Diccionario con los valores introducidos
+# Diccionario con los valores introducidos (asegúrate de que los nombres coincidan con el modelo)
 input_usuario = {
-    "Área de Poza": area_poza,
+    "Medida_Area_Infraestructura": area_poza,  # Cambiado de 'Área de Poza'
     "Promedio_K_Periodo": promedio_k_periodo,
-    "Promedio_Na_Período": promedio_na_periodo,
+    "Promedio_Na_Periodo": promedio_na_periodo,  # Cambiado de 'Promedio_Na_Período'
     "Promedio_Mg_Periodo": promedio_mg_periodo,
     "Promedio_Ca_Periodo": promedio_ca_periodo,
     "Promedio_SO4_Periodo": promedio_so4_periodo,
@@ -79,15 +79,15 @@ input_usuario = {
     "Último_Valor_Li": ultimo_valor_li,
     "Último_Valor_Cl": ultimo_valor_cl,
     "Último_Valor_H3BO3": ultimo_valor_h3bo3,
-    "Volumen de Traspaso Total": volumen_traspaso_total,
-    "Valor K Traspaso Entrada": valor_k_traspaso_entrada,
-    "Valor Na Traspaso Entrada": valor_na_traspaso_entrada,
-    "Valor Mg Traspaso Entrada": valor_mg_traspaso_entrada,
-    "Valor Ca Traspaso Entrada": valor_ca_traspaso_entrada,
-    "Valor SO4 Traspaso Entrada": valor_so4_traspaso_entrada,
-    "Valor Li Traspaso Entrada": valor_li_traspaso_entrada,
-    "Valor Cl Traspaso Entrada": valor_cl_traspaso_entrada,
-    "Valor H3BO3 Traspaso Entrada": valor_h3bo3_traspaso_entrada,
+    "SUM_Ent_Traspaso": volumen_traspaso_total,  # Cambiado de 'Volumen de Traspaso Total'
+    "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,  # Cambiado de 'Valor K Traspaso Entrada'
+    "Promedio_Ent_Ponderado_Na": valor_na_traspaso_entrada,
+    "Promedio_Ent_Ponderado_Mg": valor_mg_traspaso_entrada,
+    "Promedio_Ent_Ponderado_Ca": valor_ca_traspaso_entrada,
+    "Promedio_Ent_Ponderado_SO4": valor_so4_traspaso_entrada,
+    "Promedio_Ent_Ponderado_Li": valor_li_traspaso_entrada,
+    "Promedio_Ent_Ponderado_Cl": valor_cl_traspaso_entrada,
+    "Promedio_Ent_Ponderado_H3BO3": valor_h3bo3_traspaso_entrada,
 }
 
 # Procesar los datos de entrada
