@@ -74,9 +74,9 @@ valor_h3bo3_traspaso_entrada = st.number_input("Valor H3BO3 Traspaso Entrada", v
 
 # Diccionario con los valores introducidos
 input_usuario = {
-    "Medida_Area_Infraestructura": area_poza,
+    "Medida_Area_Infraestructura": area_poza,  # Cambiar 'Área de Poza' por 'Medida_Area_Infraestructura'
     "Promedio_K_Periodo": promedio_k_periodo,
-    "Promedio_Na_Periodo": promedio_na_periodo,
+    "Promedio_Na_Periodo": promedio_na_periodo,  # Asegurarse de que sea 'Promedio_Na_Periodo'
     "Promedio_Mg_Periodo": promedio_mg_periodo,
     "Promedio_Ca_Periodo": promedio_ca_periodo,
     "Promedio_SO4_Periodo": promedio_so4_periodo,
@@ -91,7 +91,7 @@ input_usuario = {
     "Último_Valor_Li": ultimo_valor_li,
     "Último_Valor_Cl": ultimo_valor_cl,
     "Último_Valor_H3BO3": ultimo_valor_h3bo3,
-    "SUM_Ent_Traspaso": volumen_traspaso_total,
+    "SUM_Ent_Traspaso": volumen_traspaso_total,  # Cambiar 'Volumen de Traspaso Total' por 'SUM_Ent_Traspaso'
     "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,
     "Promedio_Ent_Ponderado_Na": valor_na_traspaso_entrada,
     "Promedio_Ent_Ponderado_Mg": valor_mg_traspaso_entrada,
