@@ -2,18 +2,23 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Cargar todos los modelos
-modelos = {}
-salidas = ['Suma de TiempoOperacion', 'Cosecha_ton', 'SUM_Sal_Traspaso', 
-           'Promedio_Sal_Ponderado_K', 'Promedio_Sal_Ponderado_Na', 
-           'Promedio_Sal_Ponderado_Mg', 'Promedio_Sal_Ponderado_Ca', 
-           'Promedio_Sal_Ponderado_SO4', 'Promedio_Sal_Ponderado_Li', 
-           'Promedio_Sal_Ponderado_Cl', 'K_pct', 'Na_pct', 'Mg_pct', 
-           'Ca_pct', 'SO4_pct', 'Li_pct', 'Cl_pct', 'H3BO3_pct']
+# Función para cargar todos los modelos
+def cargar_modelos():
+    modelos = {}
+    salidas = [
+        'Suma de TiempoOperacion', 'Cosecha_ton', 'SUM_Sal_Traspaso',
+        'Promedio_Sal_Ponderado_K', 'Promedio_Sal_Ponderado_Na',
+        'Promedio_Sal_Ponderado_Mg', 'Promedio_Sal_Ponderado_Ca',
+        'Promedio_Sal_Ponderado_SO4', 'Promedio_Sal_Ponderado_Li',
+        'Promedio_Sal_Ponderado_Cl', 'K_pct', 'Na_pct', 'Mg_pct',
+        'Ca_pct', 'SO4_pct', 'Li_pct', 'Cl_pct', 'H3BO3_pct'
+    ]
+    for salida in salidas:
+        modelos[salida] = joblib.load(f"{salida}_modelo.pkl")  # Cargar el modelo específico
+    return modelos
 
-# Cargar todos los modelos entrenados
-for columna in salidas:
-    modelos[columna] = joblib.load(f"modelo_{columna}.pkl")
+# Cargar los modelos al inicio
+modelos = cargar_modelos()
 
 # Función para procesar las entradas del usuario
 def procesar_datos_entrada(input_usuario):
@@ -94,22 +99,24 @@ input_usuario = {
     "Promedio_Ent_Ponderado_SO4": valor_so4_traspaso_entrada,
     "Promedio_Ent_Ponderado_Li": valor_li_traspaso_entrada,
     "Promedio_Ent_Ponderado_Cl": valor_cl_traspaso_entrada,
-    "Promedio_Ent_Ponderado_H3BO3": valor_h3bo3_traspaso_entrada,
+    "Promedio_Ent_Ponderado_H3BO3": valor_h3bo3_traspaso_entrada
 }
 
 # Procesar los datos de entrada
 input_df = procesar_datos_entrada(input_usuario)
 
-# Realizar la predicción para cada columna de salida
+# Realizar la predicción para cada modelo y salida
 if st.button("Predecir"):
-    predicciones = {}
-    for columna, modelo in modelos.items():
-        try:
-            # Realizar predicción para la columna actual
-            predicciones[columna] = modelo.predict(input_df)[0]
-        except Exception as e:
-            st.error(f"Error en la predicción para {columna}: {str(e)}")
-    
-    # Mostrar los resultados de todas las predicciones
-    for columna, pred in predicciones.items():
-        st.write(f"{columna}: {pred}")
+    try:
+        predicciones = {}
+        for salida, modelo in modelos.items():
+            prediccion = modelo.predict(input_df)[0]
+            predicciones[salida] = prediccion
+        
+        # Mostrar las predicciones
+        st.subheader("Predicciones:")
+        for salida, prediccion in predicciones.items():
+            st.write(f"{salida}: {prediccion}")
+            
+    except Exception as e:
+        st.error(f"Error en la predicción: {str(e)}")
