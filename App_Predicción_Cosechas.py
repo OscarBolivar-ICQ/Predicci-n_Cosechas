@@ -2,35 +2,31 @@ import streamlit as st
 import pandas as pd
 import joblib
 
+# Cargar todos los modelos
+modelos = {}
+salidas = ['Suma de TiempoOperacion', 'Cosecha_ton', 'SUM_Sal_Traspaso', 
+           'Promedio_Sal_Ponderado_K', 'Promedio_Sal_Ponderado_Na', 
+           'Promedio_Sal_Ponderado_Mg', 'Promedio_Sal_Ponderado_Ca', 
+           'Promedio_Sal_Ponderado_SO4', 'Promedio_Sal_Ponderado_Li', 
+           'Promedio_Sal_Ponderado_Cl', 'K_pct', 'Na_pct', 'Mg_pct', 
+           'Ca_pct', 'SO4_pct', 'Li_pct', 'Cl_pct', 'H3BO3_pct']
+
+# Cargar todos los modelos entrenados
+for columna in salidas:
+    modelos[columna] = joblib.load(f"modelo_{columna}.pkl")
+
 # Función para procesar las entradas del usuario
 def procesar_datos_entrada(input_usuario):
     # Convertir a DataFrame
     input_df = pd.DataFrame([input_usuario])
-
     # Asegurar que todas las columnas sean de tipo float
     input_df = input_df.astype(float)
-
     # Reemplazar valores NaN o None con ceros
     input_df = input_df.fillna(0)
-
     return input_df
 
 # Título de la app
 st.title("Predicción de Cosechas en Poza")
-
-# Sección para seleccionar el modelo a usar
-st.header("Seleccionar el modelo para la predicción")
-modelos_disponibles = {
-    "Modelo General de Predicción": "Modelo_Prediccion_Cosechas.pkl",
-    "Modelo Específico 1": "Modelo_Prediccion_Cosechas_1.pkl",
-    "Modelo Específico 2": "Modelo_Prediccion_Cosechas_2.pkl"
-}
-
-# Crear un menú desplegable para seleccionar el modelo
-modelo_seleccionado = st.selectbox("Selecciona un modelo", list(modelos_disponibles.keys()))
-
-# Cargar el modelo seleccionado
-modelo = joblib.load(modelos_disponibles[modelo_seleccionado])
 
 # Sección 1: Datos Particulares de Poza
 st.header("Datos Particulares de Poza")
@@ -73,9 +69,9 @@ valor_h3bo3_traspaso_entrada = st.number_input("Valor H3BO3 Traspaso Entrada", v
 
 # Diccionario con los valores introducidos
 input_usuario = {
-    "Medida_Area_Infraestructura": area_poza,  # Update name
+    "Medida_Area_Infraestructura": area_poza,
     "Promedio_K_Periodo": promedio_k_periodo,
-    "Promedio_Na_Periodo": promedio_na_periodo,  # Ensure correct spelling
+    "Promedio_Na_Periodo": promedio_na_periodo,
     "Promedio_Mg_Periodo": promedio_mg_periodo,
     "Promedio_Ca_Periodo": promedio_ca_periodo,
     "Promedio_SO4_Periodo": promedio_so4_periodo,
@@ -90,8 +86,8 @@ input_usuario = {
     "Último_Valor_Li": ultimo_valor_li,
     "Último_Valor_Cl": ultimo_valor_cl,
     "Último_Valor_H3BO3": ultimo_valor_h3bo3,
-    "SUM_Ent_Traspaso": volumen_traspaso_total,  # Correct name
-    "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,  # Correct name
+    "SUM_Ent_Traspaso": volumen_traspaso_total,
+    "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,
     "Promedio_Ent_Ponderado_Na": valor_na_traspaso_entrada,
     "Promedio_Ent_Ponderado_Mg": valor_mg_traspaso_entrada,
     "Promedio_Ent_Ponderado_Ca": valor_ca_traspaso_entrada,
@@ -104,31 +100,16 @@ input_usuario = {
 # Procesar los datos de entrada
 input_df = procesar_datos_entrada(input_usuario)
 
-# Predicciones por cada salida
-salidas = ['Suma de TiempoOperacion', 'Cosecha_ton', 'SUM_Sal_Traspaso', 
-           'Promedio_Sal_Ponderado_K', 'Promedio_Sal_Ponderado_Na', 
-           'Promedio_Sal_Ponderado_Mg', 'Promedio_Sal_Ponderado_Ca', 
-           'Promedio_Sal_Ponderado_SO4', 'Promedio_Sal_Ponderado_Li', 
-           'Promedio_Sal_Ponderado_Cl', 'K_pct', 'Na_pct', 'Mg_pct', 
-           'Ca_pct', 'SO4_pct', 'Li_pct', 'Cl_pct', 'H3BO3_pct']
-
-# Realizar la predicción
+# Realizar la predicción para cada columna de salida
 if st.button("Predecir"):
-    try:
-        # Crear un diccionario para almacenar las predicciones
-        predicciones = {}
-
-        # Iterar sobre las salidas y realizar una predicción para cada columna
-        for columna in salidas:
-            # Realizar la predicción para cada columna de salida
-            prediccion = modelo.predict(input_df)
-            # Guardar la predicción en el diccionario
-            predicciones[columna] = prediccion[0]  # Acceder al primer elemento de la predicción
-        
-        # Mostrar los resultados de las predicciones
-        st.subheader("Predicciones:")
-        for columna, prediccion in predicciones.items():
-            st.write(f"{columna}: {prediccion}")
-
-    except Exception as e:
-        st.error(f"Error en la predicción: {str(e)}")
+    predicciones = {}
+    for columna, modelo in modelos.items():
+        try:
+            # Realizar predicción para la columna actual
+            predicciones[columna] = modelo.predict(input_df)[0]
+        except Exception as e:
+            st.error(f"Error en la predicción para {columna}: {str(e)}")
+    
+    # Mostrar los resultados de todas las predicciones
+    for columna, pred in predicciones.items():
+        st.write(f"{columna}: {pred}")
