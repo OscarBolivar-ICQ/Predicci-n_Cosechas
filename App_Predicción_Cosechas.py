@@ -10,6 +10,18 @@ def procesar_datos_entrada(input_usuario):
     # Convertir a DataFrame
     input_df = pd.DataFrame([input_usuario])
 
+    # Asegurar que las columnas estén en el mismo orden que durante el entrenamiento del modelo
+    columnas_modelo = ['Último_Valor_K', 'Último_Valor_Na', 'Último_Valor_Mg', 'Último_Valor_Ca', 'Último_Valor_SO4', 
+                       'Último_Valor_Li', 'Último_Valor_Cl', 'Último_Valor_H3BO3', 'Promedio_K_Periodo', 
+                       'Promedio_Na_Periodo', 'Promedio_Mg_Periodo', 'Promedio_Ca_Periodo', 'Promedio_SO4_Periodo', 
+                       'Promedio_Li_Periodo', 'Promedio_Cl_Periodo', 'Promedio_H3BO3_Periodo', 'SUM_Ent_Traspaso', 
+                       'Promedio_Ent_Ponderado_K', 'Promedio_Ent_Ponderado_Na', 'Promedio_Ent_Ponderado_Mg', 
+                       'Promedio_Ent_Ponderado_Ca', 'Promedio_Ent_Ponderado_SO4', 'Promedio_Ent_Ponderado_Li', 
+                       'Promedio_Ent_Ponderado_Cl', 'Promedio_Ent_Ponderado_H3BO3', 'Medida_Area_Infraestructura']
+    
+    # Asegurarse de que las columnas están en el orden correcto
+    input_df = input_df[columnas_modelo]
+
     # Asegurar que todas las columnas sean de tipo float
     input_df = input_df.astype(float)
 
@@ -60,11 +72,11 @@ valor_li_traspaso_entrada = st.number_input("Valor Li Traspaso Entrada", value=0
 valor_cl_traspaso_entrada = st.number_input("Valor Cl Traspaso Entrada", value=0.0)
 valor_h3bo3_traspaso_entrada = st.number_input("Valor H3BO3 Traspaso Entrada", value=0.0)
 
-# Diccionario con los valores introducidos (asegúrate de que los nombres coincidan con el modelo)
+# Diccionario con los valores introducidos
 input_usuario = {
-    "Medida_Area_Infraestructura": area_poza,  # Cambiado de 'Área de Poza'
+    "Medida_Area_Infraestructura": area_poza,
     "Promedio_K_Periodo": promedio_k_periodo,
-    "Promedio_Na_Periodo": promedio_na_periodo,  # Cambiado de 'Promedio_Na_Período'
+    "Promedio_Na_Periodo": promedio_na_periodo,
     "Promedio_Mg_Periodo": promedio_mg_periodo,
     "Promedio_Ca_Periodo": promedio_ca_periodo,
     "Promedio_SO4_Periodo": promedio_so4_periodo,
@@ -79,8 +91,8 @@ input_usuario = {
     "Último_Valor_Li": ultimo_valor_li,
     "Último_Valor_Cl": ultimo_valor_cl,
     "Último_Valor_H3BO3": ultimo_valor_h3bo3,
-    "SUM_Ent_Traspaso": volumen_traspaso_total,  # Cambiado de 'Volumen de Traspaso Total'
-    "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,  # Cambiado de 'Valor K Traspaso Entrada'
+    "SUM_Ent_Traspaso": volumen_traspaso_total,
+    "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,
     "Promedio_Ent_Ponderado_Na": valor_na_traspaso_entrada,
     "Promedio_Ent_Ponderado_Mg": valor_mg_traspaso_entrada,
     "Promedio_Ent_Ponderado_Ca": valor_ca_traspaso_entrada,
