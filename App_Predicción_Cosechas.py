@@ -14,7 +14,7 @@ def cargar_modelos():
         'Ca_pct', 'SO4_pct', 'Li_pct', 'Cl_pct', 'H3BO3_pct'
     ]
     for salida in salidas:
-        modelos[salida] = joblib.load(f"{salida}_modelo.pkl")  # Cargar el modelo específico
+        modelos[salida] = joblib.load(f"Modelo_{salida}.pkl")  # Cargar el modelo específico
     return modelos
 
 # Cargar los modelos al inicio
