@@ -74,7 +74,7 @@ valor_h3bo3_traspaso_entrada = st.number_input("Valor H3BO3 Traspaso Entrada", v
 
 # Diccionario con los valores introducidos
 input_usuario = {
-    "Medida_Area_Infraestructura": area_poza,
+    "Medida_Area_Infraestructura": area_poza,  # Cambio a nombre original del modelo
     "Promedio_K_Periodo": promedio_k_periodo,
     "Promedio_Na_Periodo": promedio_na_periodo,
     "Promedio_Mg_Periodo": promedio_mg_periodo,
@@ -91,15 +91,15 @@ input_usuario = {
     "Último_Valor_Li": ultimo_valor_li,
     "Último_Valor_Cl": ultimo_valor_cl,
     "Último_Valor_H3BO3": ultimo_valor_h3bo3,
-    "SUM_Ent_Traspaso": volumen_traspaso_total,
-    "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,
-    "Promedio_Ent_Ponderado_Na": valor_na_traspaso_entrada,
-    "Promedio_Ent_Ponderado_Mg": valor_mg_traspaso_entrada,
-    "Promedio_Ent_Ponderado_Ca": valor_ca_traspaso_entrada,
-    "Promedio_Ent_Ponderado_SO4": valor_so4_traspaso_entrada,
-    "Promedio_Ent_Ponderado_Li": valor_li_traspaso_entrada,
-    "Promedio_Ent_Ponderado_Cl": valor_cl_traspaso_entrada,
-    "Promedio_Ent_Ponderado_H3BO3": valor_h3bo3_traspaso_entrada
+    "SUM_Ent_Traspaso": volumen_traspaso_total,  # Cambio a nombre original del modelo
+    "Promedio_Ent_Ponderado_K": valor_k_traspaso_entrada,  # Cambio a nombre original del modelo
+    "Promedio_Ent_Ponderado_Na": valor_na_traspaso_entrada,  # Cambio a nombre original del modelo
+    "Promedio_Ent_Ponderado_Mg": valor_mg_traspaso_entrada,  # Cambio a nombre original del modelo
+    "Promedio_Ent_Ponderado_Ca": valor_ca_traspaso_entrada,  # Cambio a nombre original del modelo
+    "Promedio_Ent_Ponderado_SO4": valor_so4_traspaso_entrada,  # Cambio a nombre original del modelo
+    "Promedio_Ent_Ponderado_Li": valor_li_traspaso_entrada,  # Cambio a nombre original del modelo
+    "Promedio_Ent_Ponderado_Cl": valor_cl_traspaso_entrada,  # Cambio a nombre original del modelo
+    "Promedio_Ent_Ponderado_H3BO3": valor_h3bo3_traspaso_entrada  # Cambio a nombre original del modelo
 }
 
 # Procesar los datos de entrada
