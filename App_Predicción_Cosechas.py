@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Cargar el modelo
-modelo = joblib.load("Modelo_Predicción_Cosechas.pkl")
+modelo = joblib.load("Modelo_Prediccion_Cosechas.pkl")
 
 # Función para procesar las entradas del usuario
 def procesar_datos_entrada(input_usuario):
