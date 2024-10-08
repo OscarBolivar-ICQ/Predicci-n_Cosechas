@@ -13,6 +13,18 @@ salidas = ['Suma de TiempoOperacion', 'Cosecha_ton', 'SUM_Sal_Traspaso',
            'Promedio_Sal_Ponderado_Cl', 'K_pct', 'Na_pct', 'Mg_pct', 
            'Ca_pct', 'SO4_pct', 'Li_pct', 'Cl_pct', 'H3BO3_pct']
 
+# Definir el orden de las columnas (características) esperado por el modelo
+orden_columnas = ['Último_Valor_K', 'Último_Valor_Na', 'Último_Valor_Mg', 
+                  'Último_Valor_Ca', 'Último_Valor_SO4', 'Último_Valor_Li', 
+                  'Último_Valor_Cl', 'Último_Valor_H3BO3', 'Promedio_K_Periodo', 
+                  'Promedio_Na_Periodo', 'Promedio_Mg_Periodo', 'Promedio_Ca_Periodo', 
+                  'Promedio_SO4_Periodo', 'Promedio_Li_Periodo', 'Promedio_Cl_Periodo', 
+                  'Promedio_H3BO3_Periodo', 'SUM_Ent_Traspaso', 'Promedio_Ent_Ponderado_K', 
+                  'Promedio_Ent_Ponderado_Na', 'Promedio_Ent_Ponderado_Mg', 
+                  'Promedio_Ent_Ponderado_Ca', 'Promedio_Ent_Ponderado_SO4', 
+                  'Promedio_Ent_Ponderado_Li', 'Promedio_Ent_Ponderado_Cl', 
+                  'Promedio_Ent_Ponderado_H3BO3', 'Medida_Area_Infraestructura']
+
 # Función para procesar las entradas del usuario
 def procesar_datos_entrada(input_usuario):
     # Convertir a DataFrame
@@ -23,6 +35,9 @@ def procesar_datos_entrada(input_usuario):
 
     # Reemplazar valores NaN o None con ceros
     input_df = input_df.fillna(0)
+
+    # Reordenar las columnas en el orden esperado por el modelo
+    input_df = input_df[orden_columnas]
 
     return input_df
 
